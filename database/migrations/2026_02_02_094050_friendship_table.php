@@ -12,10 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('friendship', function(Blueprint $table){
-            $table->id()->unique(); 
-            $table->user_id();
-            $table->friend_id();
-            $table->created_at();
+            $table->id();
+            // $table->foreignId('user_id')->constrained('users');
+            // $table->foreignId('friend_id')->constrained('users');
+            $table->timestamps();
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('friend_id');
+
+            $table->unique(['user_id', 'friend_id']);
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            
+            $table->foreign('friend_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
