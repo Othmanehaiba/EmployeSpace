@@ -51,4 +51,30 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function candidate()
+    {
+        return $this->hasOne(\App\Models\Candidate::class, 'user_id');
+    }
+
+    public function recruteur()
+    {
+        return $this->hasOne(\App\Models\Recruteur::class, 'user_id');
+    }
+
+    public function friends()
+    {
+        return $this->belongsToMany(User::class, 'friendship', 'user_id', 'friend_id')
+            ->withTimestamps();
+    }
+    
+    public function friendRequestsSent()
+    {
+        return $this->hasMany(\App\Models\FriendRequest::class, 'sender_id');
+    }
+    
+    public function friendRequestsReceived()
+    {
+        return $this->hasMany(\App\Models\FriendRequest::class, 'receiver_id');
+    }
 }
