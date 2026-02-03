@@ -24,12 +24,18 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
-        ];
+                'name' => fake()->name(),
+                'email' => fake()->unique()->safeEmail(),
+                'email_verified_at' => now(),
+                'password' => static::$password ??= Hash::make('password'),
+                'remember_token' => Str::random(10),
+            
+                // ✅ obligatoires dans ta migration users
+                'photo' => fake()->imageUrl(200, 200, 'people', true),
+                'bio' => fake()->sentence(12),
+                'speciallity' => fake()->randomElement(['Laravel', 'PHP', 'Comptabilité', 'Marketing', 'RH']),
+                ];
+
     }
 
     /**
