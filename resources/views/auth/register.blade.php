@@ -54,6 +54,25 @@
                 {{ __('Already registered?') }}
             </a>
 
+            <div class="mt-4">
+                <x-input-label for="role" :value="__('Role')" />
+            
+                <select name="role" id="role" class="block mt-1 w-full border-gray-300 rounded-md">
+                    <option value="">-- Choisir --</option>
+                    <option value="chercheur" @selected(old('role') === 'chercheur')>Chercheur d’emploi</option>
+                    <option value="recruteur" @selected(old('role') === 'recruteur')>Recruteur</option>
+                </select>
+            
+                <x-input-error :messages="$errors->get('role')" class="mt-2" />
+            </div>
+            
+            <div class="mt-4">
+                <x-input-label for="company_name" :value="__('Company name (si recruteur)')" />
+                <x-text-input id="company_name" class="block mt-1 w-full" type="text" name="company_name" :value="          old('company_name')" />
+                <x-input-error :messages="$errors->get('company_name')" class="mt-2" />
+            </div>
+
+
             <x-primary-button class="ms-4">
                 {{ __('Register') }}
             </x-primary-button>

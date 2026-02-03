@@ -13,10 +13,8 @@ return new class extends Migration
     {
         Schema::create('recruteur', function(Blueprint $table){
             $table->id();
-            $table->unsignedInteger('user_id');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('company_name');
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

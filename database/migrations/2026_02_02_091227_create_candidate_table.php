@@ -10,17 +10,16 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('candidate', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedInteger('user_id');
+{
+    Schema::create('candidate', function (Blueprint $table) {
+        $table->id();
 
-            $table->string('speciallity');
-            $table->timestamps();
+        $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-        });
-    }
+        $table->string('speciallity');
+        $table->timestamps();
+    });
+}
 
     /**
      * Reverse the migrations.
