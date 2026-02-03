@@ -39,23 +39,15 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <div class="mt-4">
-            <x-input-label for="photo" :value="__('photo')" />
-            <x-text-input id="photo" class="block mt-1 w-full" type="photo" name="photo" :value="old('photo')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('photo')" class="mt-2" />
-        </div>
+        <x-input-label class="mt-4" for="password_confirmation" :value="__('Photo')" />
+        <x-text-input id="photo" class="block mt-1 w-full" type="text" name="photo" ... />
 
-        <div class="mt-4">
-            <x-input-label for="bio" :value="__('bio')" />
-            <x-text-input id="bio" class="block mt-1 w-full" type="bio" name="bio" :value="old('bio')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('bio')" class="mt-2" />
-        </div>
+        <x-input-label class="mt-4" for="password_confirmation" :value="__('Bio')" />
+        <x-text-input id="bio" class="block mt-1 w-full" type="text" name="bio" ... />
+        
+        <x-input-label class="mt-4" for="password_confirmation" :value="__('Speciallity')" />        
+        <x-text-input id="speciallity" class="block mt-1 w-full" type="text" name="speciallity" ... />
 
-        <div class="mt-4">
-            <x-input-label for="speciallity" :value="__('speciallity')" />
-            <x-text-input id="speciallity" class="block mt-1 w-full" type="speciallity" name="speciallity" :value="old('speciallity')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('speciallity')" class="mt-2" />
-        </div>
 
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
