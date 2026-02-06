@@ -6,32 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('friendship', function(Blueprint $table){
+        Schema::create('friendship', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('user_id')->constrained('users');
-            // $table->foreignId('friend_id')->constrained('users');
+
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('friend_id')->constrained('users')->cascadeOnDelete();
+
             $table->timestamps();
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('friend_id');
 
             $table->unique(['user_id', 'friend_id']);
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            
-            $table->foreign('friend_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('friendship'); 
+        Schema::dropIfExists('friendship');
     }
 };

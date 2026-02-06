@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Dashboard — Chercheur d’emploi
+            Dashboard — Chercheur d'emploi
         </h2>
     </x-slot>
 
@@ -12,20 +12,30 @@
                     Bonjour <span class="font-semibold">{{ $user->name }}</span> 👋
                 </p>
                 <p class="text-sm text-gray-500 mt-1">
-                    Ici on va ajouter : CV (formations/expériences/compétences), recherche offres, postuler, amis.
+                    Bienvenue sur votre espace candidat.
                 </p>
             </div>
 
             <div class="grid sm:grid-cols-2 gap-6">
-                <div class="bg-white shadow-sm sm:rounded-lg p-6">
-                    <h3 class="font-semibold text-gray-800">Mon CV</h3>
-                    <p class="text-sm text-gray-500 mt-1">Titre, formations, expériences, compétences.</p>
-                </div>
+                <a href="{{ route('cv.show') }}" class="bg-white shadow-sm sm:rounded-lg p-6 hover:shadow-md transition-shadow block">
+                    <h3 class="font-semibold text-gray-800">📄 Mon CV</h3>
+                    <p class="text-sm text-gray-500 mt-1">Gérer mon profil, formations, expériences et compétences.</p>
+                </a>
 
-                <div class="bg-white shadow-sm sm:rounded-lg p-6">
-                    <h3 class="font-semibold text-gray-800">Offres</h3>
+                <a href="{{ route('jobs.index') }}" class="bg-white shadow-sm sm:rounded-lg p-6 hover:shadow-md transition-shadow block">
+                    <h3 class="font-semibold text-gray-800">💼 Offres d'emploi</h3>
                     <p class="text-sm text-gray-500 mt-1">Rechercher et consulter les offres, postuler.</p>
-                </div>
+                </a>
+
+                <a href="{{ route('applications.my') }}" class="bg-white shadow-sm sm:rounded-lg p-6 hover:shadow-md transition-shadow block">
+                    <h3 class="font-semibold text-gray-800">📋 Mes candidatures</h3>
+                    <p class="text-sm text-gray-500 mt-1">Suivre mes candidatures envoyées.</p>
+                </a>
+
+                <a href="{{ route('profile.edit') }}" class="bg-white shadow-sm sm:rounded-lg p-6 hover:shadow-md transition-shadow block">
+                    <h3 class="font-semibold text-gray-800">⚙️ Mon profil</h3>
+                    <p class="text-sm text-gray-500 mt-1">Modifier mes informations personnelles.</p>
+                </a>
             </div>
 
             <div class="bg-white shadow-sm sm:rounded-lg p-6 space-y-6">
@@ -69,6 +79,44 @@
     <div>
         <h4 class="font-semibold text-gray-700">Ajouter des amis</h4>
 
+        {{-- Search users --}}
+        <div class="mt-4">
+            <h4 class="font-semibold text-gray-700 mb-2">Rechercher un utilisateur</h4>
+            <livewire:search-users />
+        
+            @if(!empty($q))
+                <p class="text-xs text-gray-500 mt-2">Résultats pour: <span class="font-semibold">{{ $q }}</span></p>
+        
+                <div class="mt-3 grid sm:grid-cols-2 gap-3">
+                    @forelse($results as $u)
+                        <div class="p-4 border rounded-lg flex items-center justify-between">
+                            <div>
+                                <p class="font-semibold text-gray-800">{{ $u->name }}</p>
+                                <p class="text-xs text-gray-500">{{ $u->speciallity }}</p>
+                                <p class="text-xs text-gray-400">{{ $u->email }}</p>
+                            </div>
+        
+                            <div class="flex gap-2">
+                                <a href="{{ route('users.show', $u->id) }}" class="px-3 py-2 rounded-md border text-sm">
+                                    Profil
+                                </a>
+        
+                                <form method="POST" action="{{ route('friends.request.send', $u->id) }}">
+                                    @csrf
+                                    <button class="px-3 py-2 rounded-md bg-gray-900 text-white text-sm">
+                                        Ajouter
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    @empty
+                        <p class="text-sm text-gray-500">Aucun utilisateur trouvé.</p>
+                    @endforelse
+                </div>
+            @endif
+        </div>
+
+
         <div class="mt-3 grid sm:grid-cols-2 gap-3">
             @forelse($suggestions as $u)
                 <div class="p-4 border rounded-lg flex items-center justify-between">
@@ -107,7 +155,7 @@
     </div>
 </div>
 
-            
+
         </div>
     </div>
 </x-app-layout>

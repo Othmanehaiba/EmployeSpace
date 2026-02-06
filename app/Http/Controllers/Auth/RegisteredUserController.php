@@ -32,20 +32,26 @@ class RegisteredUserController extends Controller
          $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'bio' => ['required'],
-            'speciallity' => ['required'],
-            'photo' => ['required'],
+            'bio' => ['nullable', 'string', 'max:2000'],
+            'speciallity' => ['nullable', 'string', 'max:255'],
+            'photo' => ['nullable', 'image', 'max:2048'],
             'role' => ['required', 'in:chercheur,recruteur'],
             'company_name' => ['required_if:role,recruteur'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
+
+        // Handle photo upload
+        $photoPath = null;
+        if ($request->hasFile('photo')) {
+            $photoPath = $request->file('photo')->store('photos', 'public');
+        }
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'bio' => $request->bio,
-            'photo' => $request->photo,
+            'photo' => $photoPath,
             'speciallity' => $request->speciallity,
         ]);
 

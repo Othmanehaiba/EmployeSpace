@@ -12,20 +12,25 @@
                     Bonjour <span class="font-semibold">{{ $user->name }}</span> 👋
                 </p>
                 <p class="text-sm text-gray-500 mt-1">
-                    Ici on va ajouter : création/gestion des offres, candidatures reçues, clôture des offres.
+                    Bienvenue sur votre espace recruteur.
                 </p>
             </div>
 
             <div class="grid sm:grid-cols-2 gap-6">
-                <div class="bg-white shadow-sm sm:rounded-lg p-6">
-                    <h3 class="font-semibold text-gray-800">Offres d’emploi</h3>
-                    <p class="text-sm text-gray-500 mt-1">Créer, modifier, supprimer, clôturer.</p>
-                </div>
+                <a href="{{ route('job-offers.index') }}" class="bg-white shadow-sm sm:rounded-lg p-6 hover:shadow-md transition-shadow block">
+                    <h3 class="font-semibold text-gray-800">📄 Mes offres d'emploi</h3>
+                    <p class="text-sm text-gray-500 mt-1">Créer, modifier, supprimer et clôturer des offres.</p>
+                </a>
 
-                <div class="bg-white shadow-sm sm:rounded-lg p-6">
-                    <h3 class="font-semibold text-gray-800">Candidatures</h3>
-                    <p class="text-sm text-gray-500 mt-1">Voir les candidats qui ont postulé.</p>
-                </div>
+                <a href="{{ route('job-offers.create') }}" class="bg-white shadow-sm sm:rounded-lg p-6 hover:shadow-md transition-shadow block">
+                    <h3 class="font-semibold text-gray-800">➕ Nouvelle offre</h3>
+                    <p class="text-sm text-gray-500 mt-1">Publier une nouvelle offre d'emploi.</p>
+                </a>
+
+                <a href="{{ route('profile.edit') }}" class="bg-white shadow-sm sm:rounded-lg p-6 hover:shadow-md transition-shadow block">
+                    <h3 class="font-semibold text-gray-800">⚙️ Mon profil</h3>
+                    <p class="text-sm text-gray-500 mt-1">Modifier mes informations personnelles.</p>
+                </a>
             </div>
 
 
@@ -68,7 +73,13 @@
 
     {{-- Suggestions --}}
     <div>
-        <h4 class="font-semibold text-gray-700">Ajouter des amis</h4>
+        <h4 class="font-semibold text-gray-700 mb-2">Ajouter des amis</h4>
+        
+        {{-- Search users --}}
+        <div class="mb-4">
+            <h4 class="font-semibold text-gray-700 mb-2">Rechercher un utilisateur</h4>
+            <livewire:search-users />
+        </div>
 
         <div class="mt-3 grid sm:grid-cols-2 gap-3">
             @forelse($suggestions as $u)

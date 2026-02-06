@@ -13,9 +13,25 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
+
+        <!-- Photo -->
+        <div>
+            <x-input-label for="photo" :value="__('Photo de profil')" />
+            <div class="mt-2 flex items-center gap-4">
+                @if($user->photo)
+                    <img src="{{ Storage::url($user->photo) }}" alt="{{ $user->name }}" class="w-16 h-16 rounded-full object-cover">
+                @else
+                    <div class="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center">
+                        <span class="text-xl text-gray-500 font-semibold">{{ substr($user->name, 0, 1) }}</span>
+                    </div>
+                @endif
+                <input id="photo" name="photo" type="file" accept="image/*" class="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200" />
+            </div>
+            <x-input-error class="mt-2" :messages="$errors->get('photo')" />
+        </div>
 
         <div>
             <x-input-label for="name" :value="__('Name')" />
@@ -47,6 +63,20 @@
             @endif
         </div>
 
+        <!-- Speciality -->
+        <div>
+            <x-input-label for="speciallity" :value="__('Spécialité')" />
+            <x-text-input id="speciallity" name="speciallity" type="text" class="mt-1 block w-full" :value="old('speciallity', $user->speciallity)" placeholder="Ex: Développeur Web, Comptable..." />
+            <x-input-error class="mt-2" :messages="$errors->get('speciallity')" />
+        </div>
+
+        <!-- Bio -->
+        <div>
+            <x-input-label for="bio" :value="__('Biographie')" />
+            <textarea id="bio" name="bio" rows="4" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" placeholder="Présentez-vous...">{{ old('bio', $user->bio) }}</textarea>
+            <x-input-error class="mt-2" :messages="$errors->get('bio')" />
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
@@ -62,3 +92,4 @@
         </div>
     </form>
 </section>
+

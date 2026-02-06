@@ -77,4 +77,32 @@ class User extends Authenticatable
     {
         return $this->hasMany(\App\Models\FriendRequest::class, 'receiver_id');
     }
+
+    public function candidateCv()
+    {
+        return $this->hasOne(CandidateCv::class);
+    }
+
+    public function jobOffers()
+    {
+        return $this->hasMany(JobOffer::class, 'recruteur_user_id');
+    }
+
+    public function jobApplications()
+    {
+        return $this->hasMany(JobApplication::class, 'candidate_user_id');
+    }
+
+    public function hasAppliedTo(JobOffer $jobOffer): bool
+    {
+        return $this->jobApplications()->where('job_offer_id', $jobOffer->id)->exists();
+    }
+
+    public function hasPendingFriendRequestTo(User $user): bool
+    {
+        return $this->friendRequestsSent()
+            ->where('receiver_id', $user->id)
+            ->where('status', 'pending')
+            ->exists();
+    }
 }
